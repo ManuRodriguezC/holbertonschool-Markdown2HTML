@@ -21,4 +21,28 @@ if __name__ == "__main__":
     if not os.path.isfile(input_file):
         sys.stderr.write(f"Missing {input_file}\n")
         sys.exit(1)
+    
+    with open(input_file, "r") as file_input:
+        html = []
+        for i in file_input:
+            if i.startswith('#'):
+                list_tag = i.split()
+                num = list_tag[0].count('#')
+                string = f"<h{num}>"
+                count = 0
+                for run in list_tag:
+                    if count > 0 and count != 1:
+                        string += " "
+                        string += list_tag[count]
+                    if count == 1:
+                        string += list_tag[count]
+                    count += 1
+                string += f"</h{num}>\n"
+                html.append(string)
+    
+    with open(output_file, "w") as file_output:
+        for dates in html:
+            file_output.write(dates)
+    
+    
     sys.exit(0)
