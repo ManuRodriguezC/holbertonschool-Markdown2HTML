@@ -1,9 +1,11 @@
 #!/usr/bin/python3
-
+"""
+Convert markdown to html
+This file read readme.md and write in readme.html
+"""
 import sys
 import os
 import markdown
-"""This file read readme.md and write in readme.html"""
 
 # Checks if it receives less than two arguments
 if len(sys.argv) < 3:
