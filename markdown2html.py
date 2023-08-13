@@ -21,28 +21,31 @@ if __name__ == "__main__":
     if not os.path.isfile(input_file):
         sys.stderr.write(f"Missing {input_file}\n")
         sys.exit(1)
-    
-    with open(input_file, "r") as file_input:
-        html = []
-        for i in file_input:
-            if i.startswith('#'):
-                list_tag = i.split()
-                num = list_tag[0].count('#')
-                string = f"<h{num}>"
-                count = 0
-                for run in list_tag:
-                    if count > 0 and count != 1:
-                        string += " "
-                        string += list_tag[count]
-                    if count == 1:
-                        string += list_tag[count]
-                    count += 1
-                string += f"</h{num}>\n"
-                html.append(string)
-    
-    with open(output_file, "w") as file_output:
-        for dates in html:
-            file_output.write(dates)
-    
-    
+
+    with open(output_file, "w") as out:
+        with open(input_file, "r") as int:
+            datas = int.readlines()
+            for i in range(len(datas)):
+                if datas[i].startswith("#"):
+                    num = datas[i].count("#")
+                    text = datas[i].replace("#", "")[1:]
+                    text = text.replace("\n", "")
+                    string = f"<h{num}>{text}</h{num}>\n"
+                    out.write(string)
+
+                if datas[i].startswith("-"):
+                    if datas[i][0] == "-" and datas[i-1][0] != "-":
+                        string = "<ul>\n"
+                        out.write(string)
+                    text = datas[i].replace("- ", "")
+                    text = text.replace("\n", "")
+                    string = f"<li>{text}</li>\n"
+                    out.write(string)
+                    if i + 1 < len(datas) and datas[i + 1][0] != "-":
+                        string = "</ul>\n"
+                        out.write(string)
+                    if i + 1 == len(datas):
+                        string = "</ul>\n"
+                        out.write(string)
+
     sys.exit(0)
