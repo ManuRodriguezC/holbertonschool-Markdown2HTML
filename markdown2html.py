@@ -64,24 +64,21 @@ if __name__ == "__main__":
                         out.write(string)
                 
                 if not datas[i].startswith("#") and not datas[i].startswith("-") and not datas[i].startswith("*"):
-                    if not datas[i].startswith("\n"):
+                    if datas[i][0] != "\n":
+                        if i + 1 == len(datas) and datas[len(datas) - 1] != "\n":
+                            datas[len(datas) - 1] = f"{datas[len(datas) - 1]}\n"
                         if datas[i - 1] == "\n" and i + 1 < len(datas):
-                            out.write("<p>\n")
-                            out.write(datas[i])
-                            if datas[i + 1] == "\n" and i + 1 < len(datas):
+                            out.write(f"<p>\n{datas[i]}")
+                            if datas[i + 1] == "\n" and i < len(datas):
                                 out.write("</p>\n")
                         if datas[i - 1] != "\n" and i + 1 < len(datas):
-                            out.write("<br/>\n")
-                            out.write(datas[i])
+                            out.write(f"{datas[i]}")
                             if datas[i + 1] == "\n" and i + 1 < len(datas):
                                 out.write("</p>\n")
-                        if i + 1 == len(datas):
-                            if datas[i - 1] != '\n':
-                                out.write("<br/>\n")
-                            if datas[i] != '\n':
-                                out.write("<p>\n")
-                                out.write(datas[i])
-                                out.write("</p>")
+                        if i + 1 == len(datas) and datas[i] != "\n":
+                            out.write(f"{datas[i]}</p>\n")
+                        
+                        
                             
                         
 
