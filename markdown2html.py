@@ -47,7 +47,7 @@ if __name__ == "__main__":
                 if "[[" in datas[i]:
                     first = datas[i].index("[[")
                     last = datas[i].index("]]")
-                    rev = f"{datas[i][:first]}2c17c6393771ee3048ae34d6b380c5ec{datas[i][last+2:]}"                    
+                    rev = f"{datas[i][:first]}8b1a9953c4611296a827abf8c47804d7{datas[i][last+2:]}"                    
                     datas[i] = rev
                 if datas[i].startswith("#"):
                     num = datas[i].count("#")
