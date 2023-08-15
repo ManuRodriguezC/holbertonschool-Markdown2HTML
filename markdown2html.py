@@ -26,6 +26,20 @@ if __name__ == "__main__":
         with open(input_file, "r") as int:
             datas = int.readlines()
             for i in range(len(datas)):
+                if "**" in datas[i]:
+                    datas[i] = datas[i].replace("**", "<b>")
+                    rev = datas[i][::-1]
+                    start = rev.index(">b<")
+                    end = start + 3
+                    sett = f"{rev[:start]}>b/<{rev[end:]}"
+                    datas[i] = sett[::-1]
+                if "__" in datas[i]:
+                    datas[i] = datas[i].replace("__", "<em>")
+                    rev = datas[i][::-1]
+                    start = rev.index(">me<")
+                    end = start + 4
+                    sett = f"{rev[:start]}>me/<{rev[end:]}"
+                    datas[i] = sett[::-1]
                 if datas[i].startswith("#"):
                     num = datas[i].count("#")
                     text = datas[i].replace("#", "")[1:]
@@ -48,7 +62,7 @@ if __name__ == "__main__":
                         string = "</ul>\n"
                         out.write(string)
 
-                if datas[i].startswith("*"):
+                if datas[i].startswith("* "):
                     if datas[i][0] == "*" and datas[i-1][0] != "*":
                         string = "<ol>\n"
                         out.write(string)
@@ -63,7 +77,7 @@ if __name__ == "__main__":
                         string = "</ol>\n"
                         out.write(string)
                 
-                if not datas[i].startswith("#") and not datas[i].startswith("-") and not datas[i].startswith("*"):
+                if not datas[i].startswith("#") and not datas[i].startswith("-") and not datas[i].startswith("* "):
                     if not datas[i].startswith("\n"):
                         if datas[i - 1] == "\n" and i + 1 < len(datas):
                             out.write(f"<p>\n{datas[i]}")
