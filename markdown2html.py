@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
     with open(output_file, "w") as out:
         with open(input_file, "r") as int:
+            buffer = ["# ", "## ", "### ", "#### ", "##### ", "###### ", "* ", "- "]
             datas = int.readlines()
             for i in range(len(datas)):
                 if datas[i].startswith("#"):
@@ -47,5 +48,33 @@ if __name__ == "__main__":
                     if i + 1 == len(datas):
                         string = "</ul>\n"
                         out.write(string)
+
+                if datas[i].startswith("*"):
+                    if datas[i][0] == "*" and datas[i-1][0] != "*":
+                        string = "<ol>\n"
+                        out.write(string)
+                    text = datas[i].replace("* ", "")
+                    text = text.replace("\n", "")
+                    string = f"<li>{text}</li>\n"
+                    out.write(string)
+                    if i + 1 < len(datas) and datas[i + 1][0] != "*":
+                        string = "</ol>\n"
+                        out.write(string)
+                    if i + 1 == len(datas):
+                        string = "</ol>\n"
+                        out.write(string)
+                
+                if not datas[i].startswith("#") and not datas[i].startswith("-") and not datas[i].startswith("*"):
+                    if not datas[i].startswith("\n"):
+                        if datas[i - 1] == "\n":
+                            out.write("<p>\n")
+                            out.write(datas[i])
+                            if datas[i + 1] == "\n":
+                                out.write("</p>\n")
+                        if datas[i - 1] != "\n":
+                            out.write("<br/>\n")
+                            out.write(datas[i])
+                            if datas[i + 1] == "\n":
+                                out.write("</p>\n")
 
     sys.exit(0)
