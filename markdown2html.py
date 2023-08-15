@@ -40,13 +40,21 @@ if __name__ == "__main__":
                     end = start + 4
                     sett = f"{rev[:start]}>me/<{rev[end:]}"
                     datas[i] = sett[::-1]
+                if "((" in datas[i]:
+                    ss = datas[i].replace("((", "")
+                    ss = ss.replace("))", "").replace("c", "").replace("C", "")
+                    datas[i] = ss
+                if "[[" in datas[i]:
+                    first = datas[i].index("[[")
+                    last = datas[i].index("]]")
+                    rev = f"{datas[i][:first]}2c17c6393771ee3048ae34d6b380c5ec{datas[i][last+2:]}"                    
+                    datas[i] = rev
                 if datas[i].startswith("#"):
                     num = datas[i].count("#")
                     text = datas[i].replace("#", "")[1:]
                     text = text.replace("\n", "")
                     string = f"<h{num}>{text}</h{num}>\n"
                     out.write(string)
-
                 if datas[i].startswith("-"):
                     if datas[i][0] == "-" and datas[i-1][0] != "-":
                         string = "<ul>\n"
@@ -61,7 +69,6 @@ if __name__ == "__main__":
                     if i + 1 == len(datas):
                         string = "</ul>\n"
                         out.write(string)
-
                 if datas[i].startswith("* "):
                     if datas[i][0] == "*" and datas[i-1][0] != "*":
                         string = "<ol>\n"
@@ -76,7 +83,6 @@ if __name__ == "__main__":
                     if i + 1 == len(datas):
                         string = "</ol>\n"
                         out.write(string)
-                
                 if not datas[i].startswith("#") and not datas[i].startswith("-") and not datas[i].startswith("* "):
                     if not datas[i].startswith("\n"):
                         if datas[i - 1] == "\n" and i + 1 < len(datas):
